@@ -1,10 +1,12 @@
 @import '../../styles/variables.scss';
+
 .pagination {
   display: flex;
   justify-content: center;
-  gap: 8px;
   margin-top: 30px;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
 
   &__button {
     padding: 8px 14px;
@@ -15,14 +17,6 @@
     cursor: pointer;
     transition: 0.2s;
     border: 1px solid $black;
-
-    &:first-child {
-      margin-right: 40px;
-    }
-
-    &:last-child {
-      margin-left: 40px;
-    }
 
     &:hover:not(:disabled) {
       background: $white-50;
@@ -39,10 +33,17 @@
       color: $black;
       font-weight: bold;
     }
+  }
 
-    &__separator {
-      padding-inline: 6px;
-      opacity: 0.7;
-    }
+  &__buttons-wrapper {
+    display: flex;
+    gap: 8px;
+    margin-inline: 40px;
+  }
+
+  &__separator {
+    padding-inline: 6px;
+    display: inline-block;
+    align-self: end;
   }
 }

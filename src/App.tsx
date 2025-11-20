@@ -4,6 +4,7 @@ import type { Person } from './types/Person';
 import { getPeople } from './utils/fetchClient';
 import PeopleList from './Components/PeopleList/PeopleList';
 import Pagination from './Components/Pagination/Pagination';
+import SearchHero from './Components/SearchHero/SearchHero';
 
 function App() {
   const [people, setPeople] = useState<Person[]>([]);
@@ -35,7 +36,7 @@ function App() {
   return (
     <div className="app">
       <div className="app__content">
-        {/* <SearchHero /> */}
+        <SearchHero inputValue={inputValue} setInputValue={setInputValue} />
 
         <PeopleList visiblePeople={visiblePeople} />
 

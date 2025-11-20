@@ -44,21 +44,23 @@ const Pagination = ({ currentPage, setCurrentPage, pageCount }: Props) => {
       >
         Prev
       </button>
-      {pageNumbers.map((number, i) =>
-        typeof number === 'number' ? (
-          <button
-            onClick={() => setCurrentPage(number)}
-            key={number}
-            className={`${styles.pagination__button} ${number === currentPage ? styles['pagination__button--active'] : ''}`}
-          >
-            {number}
-          </button>
-        ) : (
-          <span key={`.${i}`} className={styles.pagination__separator}>
-            ...
-          </span>
-        )
-      )}
+      <div className={styles['pagination__buttons-wrapper']}>
+        {pageNumbers.map((number, i) =>
+          typeof number === 'number' ? (
+            <button
+              onClick={() => setCurrentPage(number)}
+              key={number}
+              className={`${styles.pagination__button} ${number === currentPage ? styles['pagination__button--active'] : ''}`}
+            >
+              {number}
+            </button>
+          ) : (
+            <span key={`dot-${i}`} className={styles.pagination__separator}>
+              ...
+            </span>
+          )
+        )}
+      </div>
       <button
         onClick={() => setCurrentPage(currentPage + 1)}
         disabled={currentPage === pageCount}
