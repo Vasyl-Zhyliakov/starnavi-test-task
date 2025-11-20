@@ -1,0 +1,28 @@
+@import '../../styles/variables.scss';
+
+.list {
+  max-width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px 20px;
+  margin-bottom: 60px;
+
+  &__item {
+    background-color: $blue;
+    padding: 20px 16px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    backdrop-filter: blur(4px);
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $blue-70;
+      transform: translateY(-3px);
+    }
+  }
+}
