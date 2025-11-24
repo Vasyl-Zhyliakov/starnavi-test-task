@@ -3,16 +3,23 @@ import type { Person } from '../types/Person';
 
 const BASE_URL = 'https://sw-api.starnavi.io';
 
+function wait(delay: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
+}
+
 export async function getPeople() {
   const allPeople: Person[] = [];
   let nextURL: string | null = `${BASE_URL}/people/`;
 
   while (nextURL) {
-    const resp: PeopleResponse = await fetch(nextURL).then((res) => res.json());
+    await wait(300);
 
-    allPeople.push(...resp.results);
+    const response: PeopleResponse = await fetch(nextURL).then((res) => res.json());
 
-    nextURL = resp.next;
+    allPeople.push(...response.results);
+    nextURL = response.next;
   }
 
   return allPeople.sort((a, b) => a.name.localeCompare(b.name));

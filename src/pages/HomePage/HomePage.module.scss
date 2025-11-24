@@ -1,0 +1,19 @@
+.home-page {
+  &__error {
+    text-align: center;
+  }
+
+  &__content {
+    padding: 40px 16px 0 16px;
+    max-width: 1440px;
+    margin: 0 auto;
+
+    @media (min-width: 767px) {
+      padding-inline: 40px;
+    }
+
+    @media (min-width: 1024px) {
+      padding-inline: 80px;
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import type { Person } from '../../types/Person';
 import styles from './PeopleList.module.scss';
 
@@ -10,7 +11,9 @@ const PeopleList = ({ visiblePeople }: Props) => {
     <ul className={styles.list}>
       {visiblePeople.map((person) => (
         <li key={person.id} className={styles.list__item}>
-          {person.name}
+          <Link className={styles.list__link} to={`/people/${person.id}`}>
+            {person.name}
+          </Link>
         </li>
       ))}
     </ul>
