@@ -1,23 +1,56 @@
 import { Link, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../../store/store';
+import { getUnit } from '../../utils/fetchClient';
+import { clearCurrentPerson, fetchCurrent } from '../../store/peopleSlice';
+import { useEffect, useState } from 'react';
+import Loader from '../../Components/Loader/Loader';
+import style from './PersonPage.module.scss';
+import type { Film } from '../../types/Film';
 
 function PersonPage() {
+  const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams();
-  const people = useSelector((state: RootState) => state.people.people);
+  const { currentPerson, loading, error } = useSelector((state: RootState) => state.people);
 
-  const person = people.find((p) => p.id.toString() === id);
+  const [films, setFilms] = useState<Film[]>([]);
 
-  if (!person) {
-    return <p>Character not found</p>;
-  }
+  useEffect(() => {
+    if (!currentPerson && id) {
+      dispatch(fetchCurrent(+id));
+    }
+  }, [currentPerson, dispatch, id]);
+
+  useEffect(() => {
+    if (currentPerson) {
+      const loadFilms = async () => {
+        const data = await Promise.all(currentPerson.films.map((id) => getUnit('films', id)));
+        setFilms(data);
+      };
+
+      loadFilms();
+    }
+  }, [currentPerson]);
+
+  console.log(films);
 
   return (
     <div>
-      <Link to="/">⬅ Back</Link>
-      <h1>{person.name}</h1>
-      <p>{person.films}</p>
-      <p>{person.starships}</p>
+      <Link to="/" onClick={() => dispatch(clearCurrentPerson())}>
+        ⬅ Back
+      </Link>
+
+      {loading && <Loader />}
+
+      {!loading && !currentPerson && <p className={style['person-page__error']}>{error}</p>}
+
+      {!loading && currentPerson && (
+        <>
+          <h1>{currentPerson.name}</h1>
+          <p>{currentPerson.films}</p>
+          <p>{currentPerson.starships}</p>
+        </>
+      )}
     </div>
   );
 }

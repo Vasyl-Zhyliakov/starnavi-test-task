@@ -14,7 +14,7 @@ export async function getPeople() {
   let nextURL: string | null = `${BASE_URL}/people/`;
 
   while (nextURL) {
-    await wait(300);
+    await wait(100);
 
     const response: PeopleResponse = await fetch(nextURL).then((res) => res.json());
 
@@ -25,8 +25,8 @@ export async function getPeople() {
   return allPeople.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export function getPerson(id: number) {
-  return fetch(`${BASE_URL}/people/${id}`)
+export function getUnit(unit: 'people' | 'films' | 'starships', id: number) {
+  return fetch(`${BASE_URL}/${unit}/${id}`)
     .then((res) => res.json())
     .catch(() => {
       throw new Error();

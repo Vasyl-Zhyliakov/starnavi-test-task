@@ -17,10 +17,10 @@ function HomePage() {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    dispatch(init());
-  }, [dispatch]);
-
-  console.log(people);
+    if (people.length === 0) {
+      dispatch(init());
+    }
+  }, [dispatch, people]);
 
   const peoplePerPage = 10;
 
