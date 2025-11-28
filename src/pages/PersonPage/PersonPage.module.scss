@@ -1,0 +1,33 @@
+@import '../../styles/variables.scss';
+
+.page {
+  position: relative;
+
+  &__back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: absolute;
+
+    padding: 8px 14px;
+    border-radius: 6px;
+
+    background-color: $blue;
+    border: 1px solid $blue;
+
+    font-weight: 500;
+    transition: 0.2s ease;
+    top: 5%;
+    left: 5%;
+    z-index: 1;
+
+    &:hover {
+      background-color: $blue-70;
+      transform: translateX(-2px);
+    }
+
+    &:active {
+      transform: translateX(0);
+    }
+  }
+}

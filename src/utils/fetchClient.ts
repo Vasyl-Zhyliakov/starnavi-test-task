@@ -14,13 +14,15 @@ export async function getPeople() {
   let nextURL: string | null = `${BASE_URL}/people/`;
 
   while (nextURL) {
-    await wait(100);
+    await wait(300);
 
     const response: PeopleResponse = await fetch(nextURL).then((res) => res.json());
 
     allPeople.push(...response.results);
     nextURL = response.next;
   }
+
+  console.log('loading');
 
   return allPeople.sort((a, b) => a.name.localeCompare(b.name));
 }

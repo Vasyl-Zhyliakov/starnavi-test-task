@@ -11,16 +11,15 @@ import { init } from '../../store/peopleSlice';
 
 function HomePage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { people, loading, error } = useSelector((state: RootState) => state.people);
+  const { people, loading, error, currentPage } = useSelector((state: RootState) => state.people);
 
-  const [currentPage, setCurrentPage] = useState(1);
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     if (people.length === 0) {
       dispatch(init());
     }
-  }, [dispatch, people]);
+  }, [dispatch, people.length]);
 
   const peoplePerPage = 10;
 
@@ -37,33 +36,25 @@ function HomePage() {
 
   return (
     <div className={style['home-page__content']}>
-      <SearchHero
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        setCurrentPage={setCurrentPage}
-      />
+      <SearchHero inputValue={inputValue} setInputValue={setInputValue} />
 
-      {loading && <Loader />}
+      {loading && (!people || people.length === 0) && <Loader />}
 
-      {!loading && people.length === 0 && <p className={style['home-page__error']}>{error}</p>}
+      {!loading && (!people || people.length === 0) && (
+        <p className={style['home-page__error']}>{error}</p>
+      )}
 
-      {!loading &&
-        !error &&
-        (visiblePeople.length > 0 ? (
-          <>
-            <PeopleList visiblePeople={visiblePeople} />
+      {!loading && people && people.length > 0 && (
+        <>
+          <PeopleList visiblePeople={visiblePeople} />
 
-            {filteredPeople.length > peoplePerPage && (
-              <Pagination
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                pageCount={pageCount}
-              />
-            )}
-          </>
-        ) : (
-          <p className={style['home-page__error']}>There no results...</p>
-        ))}
+          {filteredPeople.length > peoplePerPage && <Pagination pageCount={pageCount} />}
+        </>
+      )}
+
+      {!loading && people && people.length > 0 && filteredPeople.length === 0 && (
+        <p className={style['home-page__error']}>There no results...</p>
+      )}
     </div>
   );
 }

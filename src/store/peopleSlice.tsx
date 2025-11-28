@@ -7,6 +7,8 @@ interface PeopleState {
   currentPerson: null | Person;
   loading: boolean;
   error: string | null;
+  loadingPerson: boolean;
+  currentPage: number;
 }
 
 const initialState: PeopleState = {
@@ -14,10 +16,15 @@ const initialState: PeopleState = {
   currentPerson: null,
   loading: false,
   error: null,
+  loadingPerson: false,
+  currentPage: 1,
 };
 
 export const init = createAsyncThunk('people/fetch', async () => {
-  return await getPeople();
+  {
+    console.log('store call');
+    return await getPeople();
+  }
 });
 
 export const fetchCurrent = createAsyncThunk('people/fetchCurrent', async (id: number) => {
@@ -33,6 +40,9 @@ const peopleSlice = createSlice({
     },
     clearCurrentPerson: (state) => {
       state.currentPerson = null;
+    },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -51,20 +61,20 @@ const peopleSlice = createSlice({
       })
 
       .addCase(fetchCurrent.pending, (state) => {
-        state.loading = true;
+        state.loadingPerson = true;
         state.error = null;
       })
       .addCase(fetchCurrent.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loadingPerson = false;
         state.currentPerson = action.payload;
       })
       .addCase(fetchCurrent.rejected, (state) => {
-        state.loading = false;
+        state.loadingPerson = false;
         state.error = 'Failed to load character';
       });
   },
 });
 
-export const { setCurrentPerson, clearCurrentPerson } = peopleSlice.actions;
+export const { setCurrentPerson, clearCurrentPerson, setCurrentPage } = peopleSlice.actions;
 
 export default peopleSlice.reducer;

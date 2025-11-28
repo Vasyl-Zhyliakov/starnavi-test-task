@@ -1,13 +1,16 @@
-import type { Dispatch, SetStateAction } from 'react';
 import styles from './Pagination.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../../store/store';
+import { setCurrentPage } from '../../store/peopleSlice';
 
 type Props = {
-  currentPage: number;
-  setCurrentPage: Dispatch<SetStateAction<number>>;
   pageCount: number;
 };
 
-const Pagination = ({ currentPage, setCurrentPage, pageCount }: Props) => {
+const Pagination = ({ pageCount }: Props) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { currentPage } = useSelector((state: RootState) => state.people);
+
   const getPageNumbers = (count: number, current: number) => {
     const pages: (string | number)[] = [];
 
@@ -38,7 +41,7 @@ const Pagination = ({ currentPage, setCurrentPage, pageCount }: Props) => {
   return (
     <div className={styles.pagination}>
       <button
-        onClick={() => setCurrentPage(currentPage - 1)}
+        onClick={() => dispatch(setCurrentPage(currentPage - 1))}
         disabled={currentPage === 1}
         className={styles.pagination__button}
       >
@@ -48,7 +51,7 @@ const Pagination = ({ currentPage, setCurrentPage, pageCount }: Props) => {
         {pageNumbers.map((number, i) =>
           typeof number === 'number' ? (
             <button
-              onClick={() => setCurrentPage(number)}
+              onClick={() => dispatch(setCurrentPage(number))}
               key={number}
               className={`${styles.pagination__button} ${number === currentPage ? styles['pagination__button--active'] : ''}`}
             >
@@ -62,7 +65,7 @@ const Pagination = ({ currentPage, setCurrentPage, pageCount }: Props) => {
         )}
       </div>
       <button
-        onClick={() => setCurrentPage(currentPage + 1)}
+        onClick={() => dispatch(setCurrentPage(currentPage + 1))}
         disabled={currentPage === pageCount}
         className={styles.pagination__button}
       >

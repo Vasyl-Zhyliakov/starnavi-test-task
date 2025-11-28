@@ -1,0 +1,37 @@
+@import '../../styles/variables.scss';
+
+.graph {
+  &__item {
+    padding: 12px;
+    background-color: $blue;
+    border: 1px solid $blue;
+
+    &::before {
+      content: '';
+      position: absolute;
+      height: 12px;
+      width: 12px;
+      left: 0;
+      top: 0;
+      background-size: contain;
+    }
+
+    &--person {
+      &:before {
+        background-image: url(/icons/person.svg);
+      }
+    }
+
+    &--film {
+      &:before {
+        background-image: url(/icons/cinema.svg);
+      }
+    }
+
+    &--ship {
+      &:before {
+        background-image: url(/icons/spaceship.svg);
+      }
+    }
+  }
+}

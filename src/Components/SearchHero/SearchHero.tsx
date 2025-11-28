@@ -1,17 +1,21 @@
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '../../store/store';
 import styles from './SearchHero.module.scss';
+import { setCurrentPage } from '../../store/peopleSlice';
 
 type Props = {
   inputValue: string;
   setInputValue: (value: string) => void;
-  setCurrentPage: (value: number) => void;
 };
 
-const SearchHero = ({ inputValue, setInputValue, setCurrentPage }: Props) => {
+const SearchHero = ({ inputValue, setInputValue }: Props) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     setInputValue(e.target.value);
-    setCurrentPage(1);
+    dispatch(setCurrentPage(1));
   };
 
   return (
