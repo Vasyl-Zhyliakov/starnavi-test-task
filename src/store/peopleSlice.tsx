@@ -22,7 +22,6 @@ const initialState: PeopleState = {
 
 export const init = createAsyncThunk('people/fetch', async () => {
   {
-    console.log('store call');
     return await getPeople();
   }
 });
@@ -70,7 +69,7 @@ const peopleSlice = createSlice({
       })
       .addCase(fetchCurrent.rejected, (state) => {
         state.loadingPerson = false;
-        state.error = 'Failed to load character';
+        state.error = 'Failed to load character...';
       });
   },
 });

@@ -5,6 +5,7 @@
     padding: 12px;
     background-color: $blue;
     border: 1px solid $blue;
+    width: var(--w);
 
     &::before {
       content: '';

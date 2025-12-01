@@ -2,6 +2,7 @@
 
 .page {
   position: relative;
+  height: 100vh;
 
   &__back {
     display: flex;
@@ -29,5 +30,19 @@
     &:active {
       transform: translateX(0);
     }
+  }
+
+  &__error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__loader-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
 }

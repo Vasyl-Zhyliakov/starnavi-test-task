@@ -29,7 +29,11 @@ const Pagination = ({ pageCount }: Props) => {
       return [1, 2, 3, 4, '...', count];
     }
 
-    if (current >= count - 2) {
+    if (current === count - 2) {
+      return [1, '...', count - 3, count - 2, count - 1, count];
+    }
+
+    if (current > count - 2) {
       return [1, '...', count - 2, count - 1, count];
     }
 
