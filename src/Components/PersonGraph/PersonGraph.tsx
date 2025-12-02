@@ -19,15 +19,18 @@ type Props = {
   data: PersonData;
 };
 
+// Character graph component: displays a character, their films, and starships as a graph using the ReactFlow library.
 export default function PersonGraph({ data }: Props) {
-  console.log(data);
   const nodeWidth = 150;
+  // calculate coordinates for the character, films, and starships
   const coordinates = getCoordinates(data, nodeWidth);
 
+  // memoizes initial nodes and edges to avoid regenerating them on every render
   const initial = useMemo(() => {
     const nodes: Node[] = [];
     const edges: Edge[] = [];
 
+    // adds a node for the character
     nodes.push({
       id: 'person',
       position: coordinates.person,
@@ -41,6 +44,7 @@ export default function PersonGraph({ data }: Props) {
     data.films.forEach((film, filmIndex) => {
       const filmId = `film-${film.filmId}`;
 
+      // adds nodes for films and creates edges between the character and films
       nodes.push({
         id: filmId,
         position: coordinates.films[filmIndex],
@@ -55,12 +59,13 @@ export default function PersonGraph({ data }: Props) {
         target: filmId,
       });
 
+      // adds nodes for starships and creates edges between films and starships
       film.starships.forEach((ship) => {
         const shipId = `${filmId}-ship-${ship.shipId}`;
 
         nodes.push({
           id: shipId,
-          position: coordinates.starShips[shipsCounter],
+          position: coordinates.starships[shipsCounter],
           data: { label: ship.shipName },
           className: `${style.graph__item} ${style['graph__item--ship']}`,
           style: { '--w': `${nodeWidth}px` } as React.CSSProperties,
@@ -79,6 +84,7 @@ export default function PersonGraph({ data }: Props) {
     return { nodes, edges };
   }, [data, coordinates]);
 
+  // local state for graph nodes and edges
   const [nodes, setNodes] = useState(initial.nodes);
   const [edges, setEdges] = useState(initial.edges);
 

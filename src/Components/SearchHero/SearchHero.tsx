@@ -8,6 +8,8 @@ type Props = {
   setInputValue: (value: string) => void;
 };
 
+// hero search component: input field for entering a character's name.
+// on change, updates the local inputValue state and resets the current pagination page to 1.
 const SearchHero = ({ inputValue, setInputValue }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
 

@@ -1,3 +1,5 @@
+// redux toolkit slice responsible for managing the list of people,
+// current person details, loading indicators, and error states.
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { Person } from '../types/Person';
 import { getPeople, getUnit } from '../utils/fetchClient';
@@ -20,12 +22,14 @@ const initialState: PeopleState = {
   currentPage: 1,
 };
 
+// asynchronous thunk for fetching all people from the API
 export const init = createAsyncThunk('people/fetch', async () => {
   {
     return await getPeople();
   }
 });
 
+// asynchronous thunk for fetching one person from the API
 export const fetchCurrent = createAsyncThunk('people/fetchCurrent', async (id: number) => {
   return await getUnit('people', id);
 });

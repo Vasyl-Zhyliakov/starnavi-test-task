@@ -9,6 +9,8 @@ type Props = {
   visiblePeople: Person[];
 };
 
+// people list component: renders the list of visible characters
+// each item is a link to the character's page and dispatches the current character to the Redux store on click.
 const PeopleList = ({ visiblePeople }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
 

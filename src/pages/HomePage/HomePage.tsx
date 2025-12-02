@@ -1,3 +1,4 @@
+// Main page that displays the list of people, search input, pagination, and loading states
 import type { Person } from '../../types/Person';
 import PeopleList from '../../Components/PeopleList/PeopleList';
 import Pagination from '../../Components/Pagination/Pagination';
@@ -10,25 +11,31 @@ import type { AppDispatch, RootState } from '../../store/store';
 import { init } from '../../store/peopleSlice';
 
 function HomePage() {
+  // extracting data from Redux store: people list, loading state, errors, and current page
   const dispatch = useDispatch<AppDispatch>();
   const { people, loading, error, currentPage } = useSelector((state: RootState) => state.people);
 
+  // local state for storing the search input value
   const [inputValue, setInputValue] = useState('');
 
+  // initial people loading
+  // if the list is empty, a request to the API is triggered
   useEffect(() => {
     if (people.length === 0) {
       dispatch(init());
     }
   }, [dispatch, people.length]);
 
+  // defines how many people are displayed on a single page
   const peoplePerPage = 10;
 
+  // filtering people by name according to the search query
   const filteredPeople = people.filter((person: Person) =>
     person.name.toLowerCase().includes(inputValue.toLowerCase().trim())
   );
 
+  // calculating total number of pages and selecting people for the current page
   const pageCount = Math.ceil(filteredPeople.length / peoplePerPage);
-
   const visiblePeople = filteredPeople.slice(
     (currentPage - 1) * peoplePerPage,
     currentPage * peoplePerPage

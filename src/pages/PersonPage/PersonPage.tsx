@@ -22,12 +22,14 @@ function PersonPage() {
   const [filmsError, setFilmsError] = useState<string>('');
   const [starshipsError, setStarshipsError] = useState<string>('');
 
+  // loads the character data if it has not been fetched yet
   useEffect(() => {
     if (!currentPerson && id) {
       dispatch(fetchCurrent(+id));
     }
   }, [currentPerson, dispatch, id]);
 
+  // loads film data and related starships for the current character
   useEffect(() => {
     if (!currentPerson) {
       return;
@@ -46,6 +48,7 @@ function PersonPage() {
         const preparedFilms = await Promise.all(
           films.map(async (film) => {
             try {
+              // filters starships to keep only those associated with the current character
               const filteredStarships = film.starships.filter((id) =>
                 currentPerson.starships.includes(id)
               );
@@ -54,6 +57,7 @@ function PersonPage() {
                 filteredStarships.map((id) => getUnit('starships', id))
               );
 
+              // builds the final data structure for the character graph component
               return {
                 filmId: film.id,
                 filmName: film.title,
@@ -111,9 +115,9 @@ function PersonPage() {
 
       {!loadingPerson && !currentPerson && <p className={style['page__error']}>{error}</p>}
 
-      {filmsError && <p className={style['page__error']}>{filmsError}</p>}
+      {filmsError && !currentPerson && <p className={style['page__error']}>{filmsError}</p>}
 
-      {starshipsError && <p className={style['page__error']}>{starshipsError}</p>}
+      {starshipsError && !currentPerson && <p className={style['page__error']}>{starshipsError}</p>}
 
       {!loadingPerson && mainData && <PersonGraph data={mainData} />}
     </div>
