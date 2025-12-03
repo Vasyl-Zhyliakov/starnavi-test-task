@@ -13,14 +13,14 @@ type Coordinates = {
 export const getCoordinates = (
   data: PersonData,
   nodeWidth = 150,
-  gap = 20,
+  gapX = 20,
   gapY = 150
 ): Coordinates => {
   // Determines the maximum number of items in a row to calculate the total graph width
   const filmsCount = data.films.length;
-  const starShipsCount = data.films.reduce((acc, film) => acc + film.starships.length, 0);
+  const starShipsCount = data.films.reduce((acc, film) => acc + (film.starships.length || 1), 0);
   const maxRow = Math.max(filmsCount, starShipsCount);
-  const graphWidth = maxRow * nodeWidth + (maxRow - 1) * gap;
+  const graphWidth = maxRow * nodeWidth + (maxRow - 1) * gapX;
 
   // Coordinates of the person node — centered at the top row
   const person = { x: graphWidth / 2 - nodeWidth / 2, y: gapY * 0 };
@@ -36,7 +36,7 @@ export const getCoordinates = (
     // Calculates the width of the starship row for the current film
     const filmShipsCount = film.starships.length;
     const filmRowWidth =
-      filmShipsCount > 0 ? filmShipsCount * nodeWidth + (filmShipsCount - 1) * gap : nodeWidth;
+      filmShipsCount > 0 ? filmShipsCount * nodeWidth + (filmShipsCount - 1) * gapX : nodeWidth;
 
     // Adds the film node coordinates to the second row
     const filmX = filmRowWidth / 2 - nodeWidth / 2 + currentX;
@@ -44,11 +44,11 @@ export const getCoordinates = (
 
     // Adds starship node coordinates to the third row
     film.starships.forEach((_, i) => {
-      const starShipX = currentX + i * (nodeWidth + gap);
+      const starShipX = currentX + i * (nodeWidth + gapX);
       starships.push({ x: starShipX, y: gapY * 2 });
     });
 
-    currentX += filmRowWidth + gap;
+    currentX += filmRowWidth + gapX;
   });
 
   // Returns an object containing all calculated node coordinates

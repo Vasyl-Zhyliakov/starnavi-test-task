@@ -1,73 +1,42 @@
-# React + TypeScript + Vite
+# Star Wars Heroes list App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# This project was created with Vite + TypeScript.
 
-Currently, two official plugins are available:
+[Demo Link](https://vasyl-zhyliakov.github.io/starnavi-test-task/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Technologies used
 
-## React Compiler
+- HTML5
+- Sass(SCSS)
+- TypeScript
+- Vite
+- React
+- Redux toolkit
+- React Flow
+- ViTest
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Follow these steps to run the project locally:
 
-## Expanding the ESLint configuration
+- Clone the repository:
+  git clone https://github.com/Vasyl-Zhyliakov/starnavi-test-task.git
+- Navigate to the project directory:
+  cd Tako
+- Install the dependencies (Make sure you have Node.js installed):
+  npm install
+- Start the development server:
+  npm run dev
+- You should see a local server link like:
+  http://localhost:5173
+  Open it in your browser to view the app.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Main Page
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- On the first launch, a request is made to the API and all character information is stored in the Redux store; further operations are done locally.
+- The page displays a paginated list of characters. Pagination logic disables the «Previous» and «Next» buttons when on the first or last page.
+- The current page is stored in the Redux store, so when returning from a character window, the correct pagination page is restored.
+- The search box filters displayed characters, and pagination resets to the first page.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Hero Page
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+- When navigating to a character page, a request is made to the API to fetch the list of films and starships associated with that character.
+- Using React Flow, a graph is generated with three layers: character → films they appeared in → starships they used in those films.
