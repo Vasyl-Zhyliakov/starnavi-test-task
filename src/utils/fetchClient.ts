@@ -2,7 +2,7 @@ import type { PeopleResponse } from '../types/PeopleResponse';
 import type { Person } from '../types/Person';
 
 // base API path proxied through Vite
-const BASE_URL = '/api';
+const BASE_URL = 'https://sw-api.starnavi.io';
 
 // utility function that creates an artificial delay during asynchronous operations.
 export function wait(delay: number) {
