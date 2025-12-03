@@ -1,4 +1,4 @@
-# Star Wars Heroes list App
+# Star Wars Heroes List App
 
 # This project was created with Vite + TypeScript.
 
