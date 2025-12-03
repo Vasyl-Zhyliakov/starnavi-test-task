@@ -10,6 +10,7 @@ import type { Film } from '../../types/Film';
 import type { PersonData } from '../../types/PersonData';
 import type { Starship } from '../../types/Starship';
 import PersonGraph from '../../Components/PersonGraph/PersonGraph';
+import { getPreparedFilms } from '../../utils/personPage';
 
 function PersonPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,59 +41,32 @@ function PersonPage() {
       setFilmsError('');
       setStarshipsError('');
 
+      let films: Film[] = [];
+      let starships: Starship[] = [];
+
       try {
-        const films: Film[] = await Promise.all(
-          currentPerson.films.map((id) => getUnit('films', id))
-        );
-
-        const preparedFilms = await Promise.all(
-          films.map(async (film) => {
-            try {
-              // filters starships to keep only those associated with the current character
-              const filteredStarships = film.starships.filter((id) =>
-                currentPerson.starships.includes(id)
-              );
-
-              const starshipsData: Starship[] = await Promise.all(
-                filteredStarships.map((id) => getUnit('starships', id))
-              );
-
-              // builds the final data structure for the character graph component
-              return {
-                filmId: film.id,
-                filmName: film.title,
-                starships: starshipsData.map((ship) => {
-                  return {
-                    shipId: ship.id,
-                    shipName: ship.name,
-                  };
-                }),
-              };
-            } catch {
-              setStarshipsError('Something wrong with starships...');
-              return {
-                filmId: film.id,
-                filmName: film.title,
-                starships: [],
-              };
-            }
-          })
-        );
-
-        setMainData({
-          personName: currentPerson.name,
-          films: preparedFilms,
-        });
-
-        setLoadingDetails(false);
+        films = await getUnit('films', currentPerson.films);
       } catch {
-        setFilmsError('Something wrong with films...');
-      } finally {
-        setLoadingDetails(false);
+        setFilmsError('Failed to load films...');
       }
+
+      try {
+        starships = await getUnit('starships', currentPerson.starships);
+      } catch {
+        setStarshipsError('Failed to load starships...');
+      }
+
+      const preparedFilms = getPreparedFilms(films, starships, currentPerson);
+
+      setMainData({
+        personName: currentPerson.name,
+        films: preparedFilms,
+      });
     };
 
-    loadAll();
+    loadAll().finally(() => {
+      setLoadingDetails(false);
+    });
   }, [currentPerson]);
 
   return (
