@@ -1,5 +1,4 @@
 // Main page that displays the list of people, search input, pagination, and loading states
-import type { Person } from '../../types/Person';
 import PeopleList from '../../Components/PeopleList/PeopleList';
 import Pagination from '../../Components/Pagination/Pagination';
 import SearchHero from '../../Components/SearchHero/SearchHero';
@@ -10,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../store/store';
 import { init } from '../../store/peopleSlice';
 import { peoplePerPage } from '../../Constants/constans';
+import { getFilteredPeople, getPageCount, getVisiblePeople } from '../../utils/homePage';
 
 function HomePage() {
   // extracting data from Redux store: people list, loading state, errors, and current page
@@ -28,16 +28,13 @@ function HomePage() {
   }, [dispatch, people.length]);
 
   // filtering people by name according to the search query
-  const filteredPeople = people.filter((person: Person) =>
-    person.name.toLowerCase().includes(inputValue.toLowerCase().trim())
-  );
+  const filteredPeople = getFilteredPeople(people, inputValue);
 
-  // calculating total number of pages and selecting people for the current page
-  const pageCount = Math.ceil(filteredPeople.length / peoplePerPage);
-  const visiblePeople = filteredPeople.slice(
-    (currentPage - 1) * peoplePerPage,
-    currentPage * peoplePerPage
-  );
+  // calculating total number of pages
+  const pageCount = getPageCount(filteredPeople, peoplePerPage);
+
+  // selecting people for the current page
+  const visiblePeople = getVisiblePeople(filteredPeople, currentPage, peoplePerPage);
 
   return (
     <div className={style['home-page']}>

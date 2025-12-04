@@ -11,6 +11,7 @@
 - TypeScript
 - Vite
 - React
+- React router
 - Redux toolkit
 - React Flow
 - ViTest
