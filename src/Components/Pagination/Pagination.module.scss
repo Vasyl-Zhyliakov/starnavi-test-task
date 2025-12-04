@@ -20,7 +20,7 @@
 
     &:hover:not(:disabled) {
       background: $white-50;
-      border: 1px solid $blue;
+      border-color: $blue;
     }
 
     &:disabled {

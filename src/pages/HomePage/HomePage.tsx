@@ -9,6 +9,7 @@ import style from './HomePage.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../store/store';
 import { init } from '../../store/peopleSlice';
+import { peoplePerPage } from '../../Constants/constans';
 
 function HomePage() {
   // extracting data from Redux store: people list, loading state, errors, and current page
@@ -26,9 +27,6 @@ function HomePage() {
     }
   }, [dispatch, people.length]);
 
-  // defines how many people are displayed on a single page
-  const peoplePerPage = 10;
-
   // filtering people by name according to the search query
   const filteredPeople = people.filter((person: Person) =>
     person.name.toLowerCase().includes(inputValue.toLowerCase().trim())
@@ -42,7 +40,7 @@ function HomePage() {
   );
 
   return (
-    <div className={style['home-page__content']}>
+    <div className={style['home-page']}>
       <SearchHero inputValue={inputValue} setInputValue={setInputValue} />
 
       {loading && (!people || people.length === 0) && <Loader />}

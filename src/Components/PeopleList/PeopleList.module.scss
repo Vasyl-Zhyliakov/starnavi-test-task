@@ -3,12 +3,11 @@
 .list {
   max-width: 80%;
   min-height: 156px;
-  margin: 0 auto;
+  margin: 0 auto 60px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 40px 20px;
-  margin-bottom: 60px;
 
   &__item {
     background-color: $blue;

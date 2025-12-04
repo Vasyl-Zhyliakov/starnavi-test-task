@@ -41,9 +41,6 @@ const peopleSlice = createSlice({
     setCurrentPerson: (state, action) => {
       state.currentPerson = action.payload;
     },
-    clearCurrentPerson: (state) => {
-      state.currentPerson = null;
-    },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
     },
@@ -78,6 +75,6 @@ const peopleSlice = createSlice({
   },
 });
 
-export const { setCurrentPerson, clearCurrentPerson, setCurrentPage } = peopleSlice.actions;
+export const { setCurrentPerson, setCurrentPage } = peopleSlice.actions;
 
 export default peopleSlice.reducer;
