@@ -1,5 +1,5 @@
 # Star Wars Heroes List App
-
+[Task](https://docs.google.com/document/d/1BsMWsckJKm0Hf_5ViuRyk3HVv3bAwbjDV57ANN-NHhc/edit?tab=t.0)
 # This project was created with Vite + TypeScript.
 
 [Demo Link](https://vasyl-zhyliakov.github.io/starnavi-test-task/)
